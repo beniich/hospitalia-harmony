@@ -12,11 +12,18 @@ import { CalendarDays, Home, Users, UserRound, Building2, CreditCard, BarChart3,
 import { useNavigate } from "react-router-dom";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 
+import { Package } from "lucide-react";
+
 const menuItems = [
   {
     title: "Tableau de bord",
     icon: Home,
     path: "/",
+  },
+  {
+    title: "Gestion de Stock",
+    icon: Package,
+    path: "/inventory",
   },
   {
     title: "Patients",
@@ -32,6 +39,11 @@ const menuItems = [
     title: "Rendez-vous",
     icon: CalendarDays,
     path: "/appointments",
+  },
+  {
+    title: "Planning",
+    icon: CalendarDays,
+    path: "/calendar",
   },
   {
     title: "Services & Lits",

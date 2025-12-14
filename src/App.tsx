@@ -11,7 +11,9 @@ import AppointmentsPage from "@/app/appointments/AppointmentsPage";
 import ServicesPage from "@/app/services/ServicesPage";
 import BillingPage from "@/app/billing/BillingPage";
 import ReportsPage from "@/app/reports/ReportsPage";
+import InventoryPage from "@/app/inventory/InventoryPage";
 import SettingsPage from "@/app/settings/SettingsPage";
+import CalendarPage from "@/app/calendar/CalendarPage";
 
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
@@ -44,6 +46,8 @@ const App = () => (
                     <AppLayout>
                       <Routes>
                         <Route path="/" element={<DashboardPage />} />
+                        <Route path="/inventory" element={<InventoryPage />} />
+                        <Route path="/calendar" element={<CalendarPage />} />
                         <Route path="/patients" element={<PatientsPage />} />
                         <Route path="/staff" element={<StaffPage />} />
                         <Route path="/appointments" element={<AppointmentsPage />} />
