@@ -13,29 +13,55 @@ import BillingPage from "@/app/billing/BillingPage";
 import ReportsPage from "@/app/reports/ReportsPage";
 import SettingsPage from "@/app/settings/SettingsPage";
 
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+
 const queryClient = new QueryClient();
+
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import LoginPage from "@/app/auth/LoginPage";
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, isLoading } = useAuth();
+  if (isLoading) return <div>Chargement...</div>;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/patients" element={<PatientsPage />} />
-            <Route path="/staff" element={<StaffPage />} />
-            <Route path="/appointments" element={<AppointmentsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/billing" element={<BillingPage />} />
-            <Route path="/reports" element={<ReportsPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
-    </TooltipProvider>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/*"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout>
+                      <Routes>
+                        <Route path="/" element={<DashboardPage />} />
+                        <Route path="/patients" element={<PatientsPage />} />
+                        <Route path="/staff" element={<StaffPage />} />
+                        <Route path="/appointments" element={<AppointmentsPage />} />
+                        <Route path="/services" element={<ServicesPage />} />
+                        <Route path="/billing" element={<BillingPage />} />
+                        <Route path="/reports" element={<ReportsPage />} />
+                        <Route path="/settings" element={<SettingsPage />} />
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                      </Routes>
+                    </AppLayout>
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { CalendarDays, Home, Users, UserRound, Building2, CreditCard, BarChart3, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { ModeToggle } from "@/components/theme/ModeToggle";
 
 const menuItems = [
   {
@@ -60,8 +61,9 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <div className="p-4">
+        <div className="p-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-medical-500">MediGest</h1>
+          <ModeToggle />
         </div>
         <SidebarGroup>
           <SidebarGroupLabel>Menu</SidebarGroupLabel>
