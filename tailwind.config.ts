@@ -89,6 +89,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
+  				'Source Sans Pro',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',
@@ -98,6 +99,7 @@ export default {
   				'Noto Color Emoji'
   			],
   			serif: [
+  				'Source Serif Pro',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
@@ -106,6 +108,7 @@ export default {
   				'serif'
   			],
   			mono: [
+  				'Source Code Pro',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
