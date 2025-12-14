@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Users, Bed, Activity, Siren, HeartPulse, Bone, Baby } from "lucide-react";
+import { Users, Bed, Activity, Siren, HeartPulse, Bone, Baby, Trash2 } from "lucide-react";
 
 // Map department icon strings to Lucide components
 import { LucideIcon } from "lucide-react";
@@ -24,7 +24,7 @@ interface Department {
     icon: string;
 }
 
-export function DepartmentCard({ department }: { department: Department }) {
+export function DepartmentCard({ department, onDelete }: { department: Department; onDelete?: (id: string) => void }) {
     const Icon = iconMap[department.icon] || Activity;
     // Calculate occupancy percentage
     const occupiedBeds = department.bedCapacity - department.availableBeds;
@@ -37,7 +37,16 @@ export function DepartmentCard({ department }: { department: Department }) {
     const progressBg = occupancyRate > 90 ? "bg-red-100" : "bg-gray-100";
 
     return (
-        <Card className="hover:shadow-md transition-all duration-200">
+        <Card className="hover:shadow-md transition-all duration-200 relative group">
+            {onDelete && (
+                <button
+                    onClick={(e) => { e.stopPropagation(); onDelete(department.id); }}
+                    className="absolute top-2 right-2 p-1.5 bg-white/50 hover:bg-red-100 text-gray-400 hover:text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Supprimer le service"
+                >
+                    <Trash2 className="h-4 w-4" />
+                </button>
+            )}
             <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">

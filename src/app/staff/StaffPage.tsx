@@ -70,7 +70,7 @@ export default function StaffPage() {
         const memberData: StaffMember = {
             id: editingMember ? editingMember.id : staff.length + 1,
             name,
-            role: role as any,
+            role: role as StaffMember["role"],
             specialty: specialty || undefined,
             email,
             phone

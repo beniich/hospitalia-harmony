@@ -1,6 +1,7 @@
 
 // Mock in-memory database to avoid native dependencies
-const departments = [
+// Mock in-memory database to avoid native dependencies
+let departments = [
     { id: 'urg', name: 'Urgences', head: 'Dr. Martin', patientsCount: 45, bedCapacity: 50, availableBeds: 5, status: 'critical', icon: 'Siren' },
     { id: 'cardio', name: 'Cardiologie', head: 'Pr. Dubois', patientsCount: 28, bedCapacity: 40, availableBeds: 12, status: 'normal', icon: 'HeartPulse' },
     { id: 'ortho', name: 'Orthopédie', head: 'Dr. Lefebvre', patientsCount: 30, bedCapacity: 35, availableBeds: 5, status: 'tension', icon: 'Bone' },
@@ -9,7 +10,7 @@ const departments = [
     { id: 'mater', name: 'Maternité', head: 'Dr. Blanc', patientsCount: 12, bedCapacity: 20, availableBeds: 8, status: 'normal', icon: 'Baby' }
 ];
 
-const beds = [
+let beds = [
     { id: '101-1', number: '1', room: '101', sector: 'Aile A', status: 'occupied', type: 'standard', patientName: 'J. Dupont' },
     { id: '101-2', number: '2', room: '101', sector: 'Aile A', status: 'available', type: 'standard', patientName: null },
     { id: '102-1', number: '1', room: '102', sector: 'Aile A', status: 'cleaning', type: 'medicalise', patientName: null },
@@ -22,7 +23,7 @@ const beds = [
     { id: '301-2', number: '2', room: '301', sector: 'Aile C', status: 'occupied', type: 'standard', patientName: 'D. Rose' }
 ];
 
-const equipments = [
+let equipments = [
     { id: 'agm-01', name: 'IRM 3T Siemens', type: 'Imagerie', serialNumber: 'SN-48293', status: 'operational', lastMaintenance: '2024-11-15', nextMaintenance: '2025-05-15', location: 'Radiologie' },
     { id: 'scan-02', name: 'Scanner CT 64', type: 'Imagerie', serialNumber: 'SN-99882', status: 'maintenance', lastMaintenance: '2024-10-01', 'nextMaintenance': '2024-12-20', location: 'Urgences' },
     { id: 'resp-05', name: 'Respirateur Hamilton', type: 'Réanimation', serialNumber: 'RE-33221', status: 'operational', lastMaintenance: '2024-12-01', nextMaintenance: '2025-01-01', location: 'Réa B' },
@@ -43,7 +44,13 @@ const db = {
         };
     },
     exec: () => { }, // no-op
-    transaction: (fn: (rows: unknown[]) => void) => (rows: unknown[]) => { } // no-op
+    transaction: (fn: (rows: unknown[]) => void) => (rows: unknown[]) => { }, // no-op
+
+    // Custom mutation helpers for mock DB
+    addDepartment: (dept: any) => { departments.push(dept); return dept; },
+    deleteDepartment: (id: string) => { departments = departments.filter(d => d.id !== id); },
+    addBed: (bed: any) => { beds.push(bed); return bed; },
+    deleteBed: (id: string) => { beds = beds.filter(b => b.id !== id); }
 };
 
 export { db };

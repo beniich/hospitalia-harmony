@@ -1,4 +1,4 @@
-import { BedDouble } from "lucide-react";
+import { BedDouble, Trash2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Bed {
@@ -27,46 +27,57 @@ const statusLabels: Record<string, string> = {
     isolated: "Isolé"
 };
 
-export function BedGrid({ beds, filter = "all" }: { beds: Bed[], filter?: string }) {
+export function BedGrid({ beds, filter = "all", onDelete }: { beds: Bed[], filter?: string, onDelete?: (id: string) => void }) {
     const filteredBeds = filter === "all" ? beds : beds.filter(b => b.status === filter);
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {filteredBeds.map((bed) => (
-                <TooltipProvider key={bed.id}>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <div className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer ${statusColors[bed.status] || "bg-gray-50 border-gray-200"}`}>
-                                <div className="relative">
-                                    <BedDouble className="h-6 w-6" />
-                                    {bed.status === 'occupied' && (
-                                        <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                                        </span>
+                <div key={bed.id} className="relative group">
+                    {onDelete && (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onDelete(bed.id); }}
+                            className="absolute -top-2 -right-2 z-10 p-1.5 bg-white shadow-sm border hover:bg-red-50 text-gray-400 hover:text-red-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Supprimer le lit"
+                        >
+                            <Trash2 className="h-3 w-3" />
+                        </button>
+                    )}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer ${statusColors[bed.status] || "bg-gray-50 border-gray-200"}`}>
+                                    <div className="relative">
+                                        <BedDouble className="h-6 w-6" />
+                                        {bed.status === 'occupied' && (
+                                            <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="text-center">
+                                        <div className="font-bold text-sm">Lit {bed.number}</div>
+                                        <div className="text-[10px] uppercase font-medium mt-0.5">{bed.room}</div>
+                                    </div>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <div className="text-xs space-y-1">
+                                    <p><span className="font-semibold">Statut:</span> {statusLabels[bed.status]}</p>
+                                    <p><span className="font-semibold">Secteur:</span> {bed.sector}</p>
+                                    <p><span className="font-semibold">Type:</span> {bed.type}</p>
+                                    {bed.patientName && (
+                                        <div className="pt-1 border-t mt-1">
+                                            <p className="font-semibold">Patient:</p>
+                                            <p>{bed.patientName}</p>
+                                        </div>
                                     )}
                                 </div>
-                                <div className="text-center">
-                                    <div className="font-bold text-sm">Lit {bed.number}</div>
-                                    <div className="text-[10px] uppercase font-medium mt-0.5">{bed.room}</div>
-                                </div>
-                            </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <div className="text-xs space-y-1">
-                                <p><span className="font-semibold">Statut:</span> {statusLabels[bed.status]}</p>
-                                <p><span className="font-semibold">Secteur:</span> {bed.sector}</p>
-                                <p><span className="font-semibold">Type:</span> {bed.type}</p>
-                                {bed.patientName && (
-                                    <div className="pt-1 border-t mt-1">
-                                        <p className="font-semibold">Patient:</p>
-                                        <p>{bed.patientName}</p>
-                                    </div>
-                                )}
-                            </div>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </div>
             ))}
 
             {filteredBeds.length === 0 && (
