@@ -8,12 +8,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CalendarDays, Home, Users, UserRound } from "lucide-react";
+import { CalendarDays, Home, Users, UserRound, Building2, CreditCard, BarChart3, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const menuItems = [
   {
-    title: "Dashboard",
+    title: "Tableau de bord",
     icon: Home,
     path: "/",
   },
@@ -31,6 +31,26 @@ const menuItems = [
     title: "Rendez-vous",
     icon: CalendarDays,
     path: "/appointments",
+  },
+  {
+    title: "Services & Lits",
+    icon: Building2,
+    path: "/services",
+  },
+  {
+    title: "Facturation",
+    icon: CreditCard,
+    path: "/billing",
+  },
+  {
+    title: "Rapports",
+    icon: BarChart3,
+    path: "/reports",
+  },
+  {
+    title: "Paramètres",
+    icon: Settings,
+    path: "/settings",
   },
 ];
 
